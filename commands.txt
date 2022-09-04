@@ -1,0 +1,14 @@
+# test proxy (no TLS)
+go run ./double-forward-proxy/ -addr :8081
+
+# local proxy with test proxy
+go run ./double-forward-proxy/ -forward-proxy-host http://127.0.0.1:8081
+
+# local proxy with windscribe proxy
+go run ./double-forward-proxy/ -forward-proxy-host https://wf-us-010.windscribe.com -forward-proxy-username {username} -forward-proxy-password {password}
+
+# curl without local proxy
+curl -v --proxy https://{username}:{password}@wf-us-010.windscribe.com https://checkipv6.windscribe.net
+
+# curl with local proxy
+curl -v --proxy http://127.0.0.1:8080 https://checkipv6.windscribe.net
